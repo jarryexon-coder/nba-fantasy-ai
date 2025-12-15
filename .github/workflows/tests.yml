@@ -9,24 +9,15 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    # Critical Debug Step: List everything in the root
-    - name: Debug - List ALL files
-      run: |
-        echo "=== Current Directory ==="
-        pwd
-        echo "=== Listing ALL files/folders ==="
-        ls -la
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-
-    - name: Build and Test with Maven
-      run: mvn --batch-mode --update-snapshots verify
-      working-directory: ./back-end
+      - name: Build and Test with Maven
+        run: mvn --batch-mode --update-snapshots verify
+        working-directory: ./back-end

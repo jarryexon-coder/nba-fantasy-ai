@@ -20,8 +20,18 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-        cache: maven # This caches dependencies to speed up future runs
+        cache: maven
+        cache-dependency-path: ./back-end/pom.xml  # <-- FIX 1: Scoped cache
 
-    # 3. Build and test the project with Maven
+    # 3. [Optional] Debug step - list files to verify path
+    - name: Debug - List project structure
+      run: |
+        pwd
+        ls -la
+        echo "--- Checking back-end folder ---"
+        ls -la ./back-end/
+
+    # 4. Build and test the project with Maven
     - name: Build and Test with Maven
       run: mvn --batch-mode --update-snapshots verify
+      working-directory: ./back-end  # <-- FIX 2: The most critical fix
